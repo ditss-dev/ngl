@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel - Pesan Anonim</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f0f8ff;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #0077b6;
+    }
+    .pesan {
+      background: white;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-left: 5px solid #00b4db;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      white-space: pre-wrap;
+    }
+    .footer {
+      margin-top: 50px;
+      text-align: center;
+      color: #aaa;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Daftar Pesan Masuk (Anonim)</h1>
+
+  <div id="isi-pesan"></div>
+
+  <div class="footer">Powered by Ditss</div>
+
+  <script>
+    fetch('pesan.txt')
+      .then(response => response.text())
+      .then(data => {
+        const pesanList = data.trim().split("\n").reverse();
+        const container = document.getElementById("isi-pesan");
+
+        if (pesanList.length === 0 || !pesanList[0]) {
+          container.innerHTML = "<p>Belum ada pesan.</p>";
+        } else {
+          pesanList.forEach(p => {
+            const div = document.createElement("div");
+            div.className = "pesan";
+            div.textContent = p;
+            container.appendChild(div);
+          });
+        }
+      })
+      .catch(err => {
+        document.getElementById("isi-pesan").innerHTML = "<p>Gagal memuat pesan.</p>";
+      });
+  </script>
+</body>
+</html>
